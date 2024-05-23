@@ -1,0 +1,68 @@
+
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int main(){
+    int N, M;
+
+    do{
+        cin >> N >> M;
+        if(N == 0 && M == 0) break;
+
+        int *dragon = new int [N];
+        int *knight = new int[M];
+
+        for (int i = 0 ; i < N ; i++) cin >> dragon[i];
+        for (int i = 0 ; i < M ; i++) cin >> knight[i];
+
+
+
+       sort(dragon,dragon+N);
+       sort(knight,knight+M);
+
+
+        int m,n,score;
+        m = 0 ; n = 0 ; score = 0;
+        while(m < M && n < N){
+            if(knight[m] >= dragon[n]){
+                score += knight[m];
+                knight[m] = -1;
+                dragon[n] = -1;
+                m++; n++;
+            }
+            if(dragon[n] > knight[m]){
+                m++;
+            }
+        }
+
+        bool pass;
+        pass = 1;
+
+        for(int i = 0 ; i < N ; i++){
+            if(dragon[i] != -1){
+                pass = 0;
+                break;
+            }
+        }
+
+        if(pass){
+            cout << score;
+        }else{
+            cout << "Loowater is doomed!";
+        }
+        cout << "\n";
+
+
+
+
+
+        delete[] dragon;
+        delete[] knight;
+    }while(N != 0 && M != 0);
+
+
+
+    return 0;
+}
