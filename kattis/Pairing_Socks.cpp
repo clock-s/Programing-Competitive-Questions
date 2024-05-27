@@ -28,10 +28,9 @@ int main() {
     pilha.pop();
   }
 
-  if (!auxilio.empty())
-    cout << "impossible";
-  else
-    cout << contador;
+
+  if (!auxilio.empty()) cout << "impossible";
+  else cout << contador;
 
   return 0;
 }
