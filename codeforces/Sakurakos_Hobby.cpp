@@ -3,23 +3,25 @@
 
 using namespace std;
 
-//AINDA NÃO COMPLETO
-//
 
-bool check(vector<int> &num, vector<bool> pass,int target, int n, vector<vector<bool>> &dp, int &dp_index, int &target_id){
-  
-  if(dp[dp_index][target_id] == true){
-    return true;
-  }
-
-  while(pass[n] != true){
-    if(target == num[n]) return true;
-    pass[n] = true;
-    dp[dp_index][n] = true;
+bool check(vector<int> &num, vector<int> &dp, vector<int> &pass, string color, int n){
+  int count = 0;
+  while(pass[n] != 1){
+    if(color[n] == '0'){
+      count++;
+    }
+    pass[n] = 1;
     n = num[n] - 1;
-    
+  }
+
+  while(pass[n] != 2){
+    pass[n] = 2;
+    dp[n] = count;
+    n = num[n] - 1;
 
   }
+
+
   return false;
 
 }
@@ -34,37 +36,25 @@ int main (int argc, char *argv[]) {
 
     cin >> n;
     vector<int> num(n);
-    vector<bool> pass(n);
-    //vector<vector<int>> dp(n,num);
+    vector<int> pass(n);
+    vector<int> dp(n);
 
     for(int i = 0 ; i < n ; i++){
       cin >> num[i];
     }
 
     cin >> color;
-    int dp_size = 0;
     for(int i  = 0 ; i < color.size() ; i++){
-      if(color[i] == '0') dp_size++;
+      if(color[i] == '0' && pass[i] == 0) 
+        check(num, dp, pass, color, i);
     }
-    //vector<vector<bool>> dp(dp_size, vector<bool>(n));
-    vector<vector<bool>> *dp = new vector<vector<bool>>(dp_size,vector<bool>(n));
-    
-    for(int i  = 0 ; i < num.size() ; i++){
-      int count = 0;
-      int dp_index = 0;
-      for(int j = 0 ; j < color.size() ; j++){
-        if(color[j] == '0'){
-          if(check(num, pass, num[i],j,*dp, dp_index, i)){
-            count++;
-          }
-          dp_index++;
-        }
-      }
-      cout << count << " ";
+  
+
+
+    for(auto i : dp){
+      cout << i << " ";
     }
     cout << endl;
-    delete dp;
-    dp = nullptr;
     
 
 
